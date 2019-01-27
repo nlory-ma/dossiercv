@@ -1,0 +1,80 @@
+voir cookieconnecté sur youtube.
+
+Dockerfile : sert à créer une image docker customisable à souhait step by step: typiquement, c'est dans dockerfile qu'on va par exemple installer vim et le customiser si on veut un serveur avec vim installé dessus.=> commandes : From debian, maintenair, run, add, exec, ....
+Notez quand meme qu'on pourra jamais créer une image à partir de Rien. Rien n'a jamais crée rien, seuls les idiots croient le contraire. Bref, on partira toujours d'un noyau : ubuntu, debia, voir window pour créer notre image :)
+
+le fichier dockerfile n'a pas d'extension et s'ecrit ainsi : Dockerfile
+
+DockerHub : plateforme officiel de docker où sont stockée les images créees par d'autres users qu'on va pull, nous pour créer notre image en local. Si mon image créee avec mon super dockerfile est trop bien, alors, je la reference sur dockerHub en le stockant dans un registre.
+
+Docker permet de transporter des applications telles que tel d'un serveur à un autre. Tout étant clusterisé, on a juste à deplacer le projet.
+
+Un fichier dockerfile s'ecrit ainsi :
+
+#Debut
+
+# image de base : le commentaire commence tjrs par un #
+
+From debian
+
+#qui maintient le dockerfile
+
+MAINTAINER rekkit <rekkit@bar.com
+
+RUN apt-get update
+
+RUN apt-get instaapt-get update && apt-get install -y \ 
+    build-essential \ 
+    curl \ 
+ll -y wget # par exemple faire attention aux commandes qui attendes de validation , typiquement -y avec apt-get install par exemple
+
+ADD script.sh /usr/bin/script.sh  #copy un fichier depuis notre repertoire vers le serveur de l'image créee . note COPY fait la meme chose COPY origin dest mais avec la possibilité que origin soit une adresse : https://......
+
+#Tjrs rendre le fichier executable ou le dossier accessible
+
+RUN chmod 755 /usr/bin/script.sh
+
+EXPOSE 80 #ouvre ou crée le port 80 d'ecoute
+
+CMD ["script.sh"] # voir Entrypoint
+
+#fin 
+
+
+puis on va ds le dossier où se trouve le Dockerfile
+
+puis lancer la commande pur executer le Dockerfile : docker build -t rekkit/nom_projet:15 .
+
+-t : pour le tag cad nommer le cluster sinon on ne le voit pas
+15 : juste la version qu'on veut lui donner
+. : parce qu'on est dans le dossier voir git add .
+
+
+Pour lancer ma machine, faire :  docker run --rm -ti rekkit/nom_projet:15
+
+ti : pour avoir le print de la commande
+--rm : pour supprimer le container une fois qu'il aura executé
+
+docker run -ti rekkit/nom_projet:15
+
+voir ce tuto pour docker-composer
+https://www.youtube.com/watch?v=Soh2k8lCXCA
+
+
+https://medium.freecodecamp.org/how-i-filter-and-grep-docker-containers-images-and-volumes-and-how-you-can-too-a60e52bf7784
+
+
+
+installation de docker
+*********************
+https://www.admin-systeme.com/docker/installation-de-docker-sous-debian/
+
+
+
+
+
+
+https://www.techrepublic.com/article/how-to-use-docker-tags-to-add-version-control-to-images/
+https://docs.docker.com/engine/reference/commandline/image_inspect/#related-commands
+https://www.atlassian.com/blog/archives/docker-all-the-things-at-atlassian-automation-and-wiring
+https://github.com/wsargent/docker-cheat-sheet
